@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>缺德组织官网</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E88E5',
+                        secondary: '#F5F7FA',
+                        dark: '#263238',
+                        live: '#FF5252',
+                        music: '#673AB7'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            }
+            .hover-lift {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .hover-lift:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            }
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+            }
+            .video-container iframe,
+            .video-container video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 0.5rem;
+            }
+            .live-badge {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                z-index: 10;
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+            /* 炫酷暗黑风 + 毛玻璃音乐播放器样式 */
+            .music-player {
+                background: linear-gradient(135deg, rgba(103, 58, 183, 0.8), rgba(81, 45, 168, 0.8));
+                border-radius: 1rem;
+                box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .progress-bar {
+                height: 6px;
+                background: rgba(255,255,255,0.2);
+                border-radius: 3px;
+                cursor: pointer;
+                position: relative;
+            }
+            .progress-fill {
+                height: 100%;
+                background: #ffffff;
+                border-radius: 3px;
+                transition: width 0.1s linear;
+            }
+            .progress-bar:hover .progress-fill {
+                background: #fce4ec;
+            }
+            .lyrics-container {
+                height: 120px;
+                overflow: hidden;
+                position: relative;
+            }
+            .lyrics-line {
+                text-align: center;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                opacity: 0.6;
+                transform: translateY(0);
+            }
+            .lyrics-line.active {
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #ffffff;
+                opacity: 1;
+                transform: translateY(-50%);
+                top: 50%;
+            }
+            .lyrics-line.prev {
+                transform: translateY(-100%);
+                top: 0;
+            }
+            .lyrics-line.next {
+                transform: translateY(100%);
+                bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-dark font-sans">
+    <!-- 板块1：Logo名称 -->
+    <section class="py-20 bg-primary/10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="inline-block p-4 bg-white rounded-lg shadow-lg hover-lift">
+                <img src="logo.png" alt="缺德组织Logo" class="w-50 h-auto mx-auto mb-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-primary text-shadow">缺德组织</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块2：组织宣传视频（双区域并列） -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 text-primary text-center">组织宣传视频</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-secondary p-4 rounded-lg shadow-md hover-lift">
+                        <div class="video-container">
+                            <video controls poster="video1-cover.jpg" class="w-full">
+                                <source src="organization-video1.mp4" type="video/mp4">
+                                您的浏览器不支持HTML5视频播放，请升级浏览器。
+                            </video>
+                        </div>
+                        <p class="mt-4 text-center text-gray-600">缺德组织</p>
+                    </div>
+                    <div class="bg-secondary p-4 rounded-lg shadow-md hover-lift">
+                        <div class="video-container">
+                            <video controls poster="video2-cover.jpg" class="w-full">
+                                <source src="organization-video2.mp4" type="video/mp4">
+                                您的浏览器不支持HTML5视频播放，请升级浏览器。
+                            </video>
+                        </div>
+                        <p class="mt-4 text-center text-gray-600">石原里美鉴赏</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 直播视频展示区 -->
+    <section class="py-16 bg-primary/5">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 text-primary text-center">
+                    <i class="fa fa-video-camera mr-2"></i>组织直播专区
+                </h2>
+                <div class="mb-12 bg-white p-6 rounded-lg shadow-md hover-lift">
+                    <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                        <i class="fa fa-calendar-check-o text-primary mr-2"></i>本周直播节目表（不定时更新）
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <img src="live-schedule.jpg" alt="本周直播节目表" class="w-full max-w-3xl mx-auto rounded-lg shadow-sm">
+                    </div>
+                    <p class="mt-4 text-gray-600 text-center">点击图片可查看节目表</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-md hover-lift overflow-hidden">
+                        <div class="relative">
+                            <span class="live-badge bg-live text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fa fa-circle mr-1"></i>直播中
+                            </span>
+                            <div class="video-container">
+                                <video controls poster="live1-cover.jpg" class="w-full">
+                                    <source src="https://your-live-stream-1.com/stream.m3u8" type="application/x-mpegURL">
+                                    您的浏览器不支持直播播放
+                                </video>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2">测试</h3>
+                            <p class="text-gray-600 mb-3">未知</p>
+                            <a href="https://your-live-room-1.com" target="_blank" class="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-external-link mr-1"></i>进入直播间
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md hover-lift overflow-hidden">
+                        <div class="relative">
+                            <span class="live-badge bg-live text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fa fa-circle mr-1"></i>直播中
+                            </span>
+                            <div class="video-container">
+                                <video controls poster="live2-cover.jpg" class="w-full">
+                                    <source src="https://your-live-stream-2.com/stream.m3u8" type="application/x-mpegURL">
+                                    您的浏览器不支持直播播放
+                                </video>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2">测试2</h3>
+                            <p class="text-gray-600 mb-3">未知</p>
+                            <a href="https://your-live-room-2.com" target="_blank" class="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-external-link mr-1"></i>进入直播间
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md hover-lift overflow-hidden">
+                        <div class="relative">
+                            <span class="live-badge bg-live text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fa fa-circle mr-1"></i>直播中
+                            </span>
+                            <div class="video-container">
+                                <video controls poster="live3-cover.jpg" class="w-full">
+                                    <source src="https://your-live-stream-3.com/stream.m3u8" type="application/x-mpegURL">
+                                    您的浏览器不支持直播播放
+                                </video>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2">测试3</h3>
+                            <p class="text-gray-600 mb-3">未知</p>
+                            <a href="https://your-live-room-3.com" target="_blank" class="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-external-link mr-1"></i>进入直播间
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心板块：服务器本地音乐库播放器（自动读取 + 歌词同步） -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 text-primary text-center">
+                    <i class="fa fa-music mr-2"></i>服务器本地音乐库
+                </h2>
+                
+                <div class="music-player p-6 text-white hover-lift">
+                    <!-- 歌曲信息 -->
+                    <div class="mb-4 text-center">
+                        <h3 id="current-song-name" class="text-xl font-bold mb-1">加载中...</h3>
+                        <p class="text-sm opacity-80">服务器本地音乐</p>
+                    </div>
+                    
+                    <!-- 歌词显示区域（同步滚动） -->
+                    <div class="lyrics-container mb-6" id="lyrics-container">
+                        <div class="lyrics-line active">暂无歌词</div>
+                    </div>
+                    
+                    <!-- 进度条 + 时间显示 -->
+                    <div class="mb-4">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span id="current-time">00:00</span>
+                            <span id="total-time">00:00</span>
+                        </div>
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 控制按钮 -->
+                    <div class="flex justify-center items-center gap-6 mb-6">
+                        <button id="prev-btn" class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">
+                            <i class="fa fa-step-backward text-xl"></i>
+                        </button>
+                        <button id="play-btn" class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-music hover:scale-105 transition-transform">
+                            <i class="fa fa-play text-2xl"></i>
+                        </button>
+                        <button id="next-btn" class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">
+                            <i class="fa fa-step-forward text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- 服务器音乐列表（自动生成） -->
+                    <div class="mt-4">
+                        <h4 class="text-lg font-semibold mb-3 flex items-center">
+                            <i class="fa fa-list mr-2"></i>音乐列表
+                        </h4>
+                        <div class="bg-white/10 rounded-lg p-2 max-h-60 overflow-y-auto">
+                            <ul id="music-list" class="space-y-1">
+                                <li class="p-2 text-center text-sm opacity-80">加载音乐列表中...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 必应搜索板块 -->
+    <section class="py-16 bg-primary/5">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 text-primary text-center">
+                    <i class="fa fa-search mr-2"></i>搜索中心
+                </h2>
+                <div class="bg-white p-8 rounded-lg shadow-md hover-lift">
+                    <form action="https://cn.bing.com/search" method="get" target="_blank" class="flex flex-col md:flex-row gap-4">
+                        <input type="text" 
+                               name="q" 
+                               placeholder="输入你想搜索的内容..." 
+                               class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-lg">
+                        <button type="submit" 
+                                class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors hover-lift text-lg flex items-center justify-center">
+                            <i class="fa fa-search mr-2"></i>搜索
+                        </button>
+                    </form>
+                    <p class="mt-4 text-center text-gray-600">
+                        <i class="fa fa-info-circle mr-1"></i>使用必应搜索引擎，点击搜索将跳转到必应结果页面
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块3：组织简介 -->
+    <section class="py-16 container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-primary text-center">关于我们</h2>
+            <div class="bg-white p-8 rounded-lg shadow-md hover-lift">
+                <p class="text-lg leading-relaxed mb-4">
+                    缺德组织成立于2023年的一个夏季运动会，在这里我们遇到了志同道合的人，一起创办了这个组织，虽然组织目前人数很少，但是这是一个很有意义的里程碑，俗话说：“人类的一小步，文明的一大步”，我相信，且我们坚信，我们一定会改变世界！
+                </p>
+                <div class="my-6">
+                    <img src="placeholder-intro.jpg" alt="组织场景" class="w-full h-64 object-cover rounded-lg shadow-sm">
+                </div>
+                <p class="text-lg leading-relaxed">
+                    我们的核心价值观：<br>
+                    1. 自由分享：所有技术资源免费共享，拒绝技术壁垒<br>
+                    2. 互助成长：新手提问有回应，老手分享有收获<br>
+                    3. 持续创新：保持对新技术的探索和尝试<br>
+                    4. 专业做缺德事：没有什么可以说的，我们尊重你的想法<br>
+                    5. 可以发挥你的专长：你最擅长的东西，在可观范围下我们支持<br>
+                    6. 可以做你喜欢做的事：做你喜欢做的事，这很难吗<br>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块4：人员介绍 -->
+    <section class="py-16 bg-primary/5">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-primary text-center">核心成员</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member1.jpg" alt="戴总" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">WickedDai</h3>
+                    <p class="text-primary/80">创始人/程序员/摄影师</p>
+                    <p class="mt-2 text-sm text-gray-600">缺德组织CEO，喜欢捣鼓小发明，擅长捉奸，是缺德组织核心人员之一</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member2.jpg" alt="黄总" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">JacksonHuang</h3>
+                    <p class="text-primary/80">电脑专家/网络工程师/徕卡摄影</p>
+                    <p class="mt-2 text-sm text-gray-600">缺德组织里电脑专家，组织国际业务对接负责人，佳能徕卡相机拥有者</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member3.jpg" alt="林总" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">Mr.Lin</h3>
+                    <p class="text-primary/80">认证摄影师</p>
+                    <p class="mt-2 text-sm text-gray-600">佳能相机拥有者，漫展约拍负责人，缺德组织里重要一员</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member4.jpg" alt="You" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">屏幕前的你</h3>
+                    <p class="text-primary/80">不限身份，是个正常人</p>
+                    <p class="mt-2 text-sm text-gray-600">还等什么？赶快加入我们吧！</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块5：合作伙伴+资源库 -->
+    <section class="py-16 container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-primary text-center">链接与资源</h2>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="mb-10">
+                    <h3 class="text-2xl font-semibold mb-6">推荐链接</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://github.com" target="_blank" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-github mr-2"></i>GitHub开源社区
+                        </a>
+                        <a href="https://www.douyin.com" target="_blank" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-link mr-2"></i>抖音
+                        </a>
+                        <a href="https://dev.shinnku.us" target="_blank" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-cubes mr-2"></i>真红小站（galgame）
+                        </a>
+                        <a href="https://yandex.com" target="_blank" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-server mr-2"></i>Yandex --新一代高速搜索引擎
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <a href="http://192.168.3.100:8081/filebrowser" target="_blank" class="px-8 py-4 bg-primary/90 text-white rounded-lg hover-lift inline-block text-xl font-semibold">
+                        <i class="fa fa-database mr-2"></i>缺德组织资源库
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-6 bg-primary text-white text-center">
+        <p>© 2026 缺德组织/缺德影视 版权所有</p>
+    </footer>
+
+    <!-- 核心脚本：服务器本地音乐库播放器 + 歌词同步 -->
+    <script>
+        // 页面滚动渐显效果
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section > div').forEach(el => {
+                el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+
+            // 初始化服务器本地音乐播放器
+            initServerMusicPlayer();
+        });
+
+        // 服务器本地音乐库播放器核心逻辑（自动读取 + 歌词同步）
+        function initServerMusicPlayer() {
+            // DOM 元素
+            const currentSongNameEl = document.getElementById('current-song-name');
+            const lyricsContainer = document.getElementById('lyrics-container');
+            const progressBar = document.getElementById('progress-bar');
+            const progressFill = document.getElementById('progress-fill');
+            const currentTimeEl = document.getElementById('current-time');
+            const totalTimeEl = document.getElementById('total-time');
+            const playBtn = document.getElementById('play-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const musicListEl = document.getElementById('music-list');
+
+            // 音频核心
+            const audio = new Audio();
+            let musicList = []; // 服务器音乐列表：[{ name, audio_path, lrc_path }]
+            let currentMusicIndex = -1;
+            let isPlaying = false;
+            let lyrics = []; // 解析后的歌词：[{ time, text }]
+
+            // ========== 1. 格式化时间 ==========
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '00:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // ========== 2. 从后端接口获取服务器音乐列表 ==========
+            async function fetchMusicList() {
+                try {
+                    const response = await fetch('/api/get_music_list.py');
+                    if (!response.ok) throw new Error('获取音乐列表失败');
+                    musicList = await response.json();
+                    renderMusicList();
+                    
+                    // 自动加载第一首音乐
+                    if (musicList.length > 0) {
+                        loadMusic(0);
+                    } else {
+                        musicListEl.innerHTML = '<li class="p-2 text-center text-sm opacity-80">服务器音乐库为空</li>';
+                        currentSongNameEl.textContent = '服务器音乐库为空';
+                    }
+                } catch (error) {
+                    console.error('获取音乐列表错误:', error);
+                    musicListEl.innerHTML = '<li class="p-2 text-center text-sm opacity-80">获取音乐列表失败</li>';
+                    currentSongNameEl.textContent = '获取音乐列表失败';
+                }
+            }
+
+            // ========== 3. 渲染音乐列表 ==========
+            function renderMusicList() {
+                musicListEl.innerHTML = '';
+                musicList.forEach((music, index) => {
+                    const li = document.createElement('li');
+                    li.className = `p-2 hover:bg-white/20 rounded cursor-pointer transition-colors ${currentMusicIndex === index ? 'bg-white/20 font-bold' : ''}`;
+                    li.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span>${index + 1}. ${music.name}</span>
+                            ${music.lrc_path ? '<i class="fa fa-comment-o text-xs opacity-70" title="有歌词"></i>' : ''}
+                        </div>
+                    `;
+                    li.addEventListener('click', () => {
+                        loadMusic(index);
+                        if (!isPlaying) togglePlay();
+                    });
+                    musicListEl.appendChild(li);
+                });
+            }
+
+            // ========== 4. 加载音乐 ==========
+            async function loadMusic(index) {
+                if (index < 0 || index >= musicList.length) return;
+
+                // 停止当前播放
+                audio.pause();
+                isPlaying = false;
+                playBtn.innerHTML = '<i class="fa fa-play text-2xl"></i>';
+
+                // 更新当前索引
+                currentMusicIndex = index;
+                const currentMusic = musicList[index];
+
+                // 设置音频源
+                audio.src = currentMusic.audio_path;
+                currentSongNameEl.textContent = currentMusic.name;
+
+                // 重置进度条
+                progressFill.style.width = '0%';
+                currentTimeEl.textContent = '00:00';
+                totalTimeEl.textContent = '00:00';
+
+                // 重置歌词
+                lyrics = [];
+                lyricsContainer.innerHTML = '<div class="lyrics-line active">加载歌词中...</div>';
+
+                // 加载歌词（如果有）
+                if (currentMusic.lrc_path) {
+                    await fetchLyrics(currentMusic.lrc_path);
+                } else {
+                    lyricsContainer.innerHTML = '<div class="lyrics-line active">暂无歌词</div>';
+                }
+
+                // 更新音乐列表高亮
+                renderMusicList();
+
+                // 音频加载完成后获取总时长
+                audio.addEventListener('loadedmetadata', () => {
+                    totalTimeEl.textContent = formatTime(audio.duration);
+                }, { once: true });
+            }
+
+            // ========== 5. 获取并解析 LRC 歌词 ==========
+            async function fetchLyrics(lrcPath) {
+                try {
+                    const response = await fetch(lrcPath);
+                    if (!response.ok) throw new Error('获取歌词失败');
+                    const lrcText = await response.text();
+                    lyrics = parseLRC(lrcText);
+                    renderLyrics();
+                } catch (error) {
+                    console.error('获取歌词错误:', error);
+                    lyricsContainer.innerHTML = '<div class="lyrics-line active">歌词加载失败</div>';
+                }
+            }
+
+            // ========== 6. 解析 LRC 歌词格式 ==========
+            function parseLRC(lrcText) {
+                const parsedLyrics = [];
+                const lines = lrcText.split('\n');
+                const lrcRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
+
+                lines.forEach(line => {
+                    const match = line.match(lrcRegex);
+                    if (match) {
+                        const mins = parseInt(match[1]);
+                        const secs = parseInt(match[2]);
+                        const ms = parseInt(match[3]);
+                        const time = mins * 60 + secs + ms / 1000;
+                        const text = match[4].trim();
+                        if (text) {
+                            parsedLyrics.push({ time, text });
+                        }
+                    }
+                });
+
+                // 按时间排序
+                return parsedLyrics.sort((a, b) => a.time - b.time);
+            }
+
+            // ========== 7. 渲染歌词 ==========
+            function renderLyrics() {
+                lyricsContainer.innerHTML = '';
+                if (lyrics.length === 0) {
+                    lyricsContainer.innerHTML = '<div class="lyrics-line active">暂无歌词</div>';
+                    return;
+                }
+
+                // 渲染前 3 句歌词（初始状态）
+                for (let i = 0; i < Math.min(3, lyrics.length); i++) {
+                    const div = document.createElement('div');
+                    div.className = `lyrics-line ${i === 0 ? 'active' : i === 1 ? 'next' : ''}`;
+                    div.textContent = lyrics[i].text;
+                    div.dataset.time = lyrics[i].time;
+                    lyricsContainer.appendChild(div);
+                }
+            }
+
+            // ========== 8. 同步歌词（核心：根据播放进度更新歌词高亮） ==========
+            function syncLyrics() {
+                if (lyrics.length === 0) return;
+
+                const currentTime = audio.currentTime;
+                let activeIndex = -1;
+
+                // 找到当前播放进度对应的歌词索引
+                for (let i = 0; i < lyrics.length; i++) {
+                    if (lyrics[i].time <= currentTime) {
+                        activeIndex = i;
+                    } else {
+                        break;
+                    }
+                }
+
+                if (activeIndex === -1) return;
+
+                // 清空歌词容器，重新渲染当前、上一句、下一句歌词
+                lyricsContainer.innerHTML = '';
+
+                // 上一句歌词
+                if (activeIndex > 0) {
+                    const prevDiv = document.createElement('div');
+                    prevDiv.className = 'lyrics-line prev';
+                    prevDiv.textContent = lyrics[activeIndex - 1].text;
+                    lyricsContainer.appendChild(prevDiv);
+                }
+
+                // 当前歌词（高亮）
+                const activeDiv = document.createElement('div');
+                activeDiv.className = 'lyrics-line active';
+                activeDiv.textContent = lyrics[activeIndex].text;
+                lyricsContainer.appendChild(activeDiv);
+
+                // 下一句歌词
+                if (activeIndex < lyrics.length - 1) {
+                    const nextDiv = document.createElement('div');
+                    nextDiv.className = 'lyrics-line next';
+                    nextDiv.textContent = lyrics[activeIndex + 1].text;
+                    lyricsContainer.appendChild(nextDiv);
+                }
+            }
+
+            // ========== 9. 播放/暂停切换 ==========
+            function togglePlay() {
+                if (currentMusicIndex === -1 || musicList.length === 0) return;
+
+                if (isPlaying) {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fa fa-play text-2xl"></i>';
+                } else {
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fa fa-pause text-2xl"></i>';
+                }
+                isPlaying = !isPlaying;
+            }
+
+            // ========== 10. 上一曲/下一曲 ==========
+            function playPrev() {
+                if (musicList.length === 0) return;
+                const newIndex = currentMusicIndex > 0 ? currentMusicIndex - 1 : musicList.length - 1;
+                loadMusic(newIndex);
+                if (isPlaying) audio.play();
+            }
+
+            function playNext() {
+                if (musicList.length === 0) return;
+                const newIndex = currentMusicIndex < musicList.length - 1 ? currentMusicIndex + 1 : 0;
+                loadMusic(newIndex);
+                if (isPlaying) audio.play();
+            }
+
+            // ========== 11. 进度条控制 ==========
+            function updateProgress() {
+                if (isNaN(audio.duration)) return;
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = `${progress}%`;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+                syncLyrics(); // 同步歌词
+            }
+
+            function seekProgress(e) {
+                if (isNaN(audio.duration)) return;
+                const rect = progressBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const progress = clickX / rect.width;
+                audio.currentTime = progress * audio.duration;
+            }
+
+            // ========== 事件监听 ==========
+            // 页面加载时获取音乐列表
+            fetchMusicList();
+
+            // 播放/暂停按钮
+            playBtn.addEventListener('click', togglePlay);
+
+            // 上一曲/下一曲按钮
+            prevBtn.addEventListener('click', playPrev);
+            nextBtn.addEventListener('click', playNext);
+
+            // 进度条点击
+            progressBar.addEventListener('click', seekProgress);
+
+            // 实时更新进度和歌词
+            audio.addEventListener('timeupdate', updateProgress);
+
+            // 歌曲播放结束自动下一曲
+            audio.addEventListener('ended', playNext);
+
+            // 音频加载错误处理
+            audio.addEventListener('error', (e) => {
+                console.error('音频加载错误:', e);
+                currentSongNameEl.textContent = '音频加载失败';
+                playNext();
+            });
+        }
+    </script>
+</body>
+</html>
