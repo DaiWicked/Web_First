@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>缺德组织</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E88E5', // 匹配logo蓝色
+                        secondary: '#F5F7FA',
+                        dark: '#263238'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            }
+            .hover-lift {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .hover-lift:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-secondary text-dark font-sans">
+    <!-- 板块1：Logo名称 -->
+    <section class="py-20 bg-primary/10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="inline-block p-4 bg-white rounded-lg shadow-lg hover-lift">
+                <img src="logo.png" alt="缺德组织Logo" class="w-40 h-auto mx-auto mb-4">
+                <h1 class="text-4xl md:text-5xl font-bold text-primary text-shadow">缺德组织</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块2：组织简介 -->
+    <section class="py-16 container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-primary text-center">组织简介</h2>
+            <div class="bg-white p-8 rounded-lg shadow-md hover-lift">
+                <p class="text-lg leading-relaxed mb-4">
+                    这里填写组织的简介内容，可搭配一张相关图片（后续替换占位符）：
+                </p>
+                <div class="my-6">
+                    <img src="placeholder-intro.jpg" alt="组织场景" class="w-full h-64 object-cover rounded-lg shadow-sm">
+                </div>
+                <p class="text-lg leading-relaxed">
+                    这里填写组织的详细说明文字，可分段落展示，保持简洁明了。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块3：人员介绍 -->
+    <section class="py-16 bg-primary/5">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-primary text-center">核心成员</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 成员1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member1.jpg" alt="成员1" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">成员姓名1</h3>
+                    <p class="text-primary/80">职位名称</p>
+                </div>
+                <!-- 成员2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member2.jpg" alt="成员2" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">成员姓名2</h3>
+                    <p class="text-primary/80">职位名称</p>
+                </div>
+                <!-- 成员3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member3.jpg" alt="成员3" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">成员姓名3</h3>
+                    <p class="text-primary/80">职位名称</p>
+                </div>
+                <!-- 成员4 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover-lift text-center">
+                    <img src="member4.jpg" alt="成员4" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary/20">
+                    <h3 class="text-xl font-semibold mb-2">成员姓名4</h3>
+                    <p class="text-primary/80">职位名称</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 板块4：合作伙伴+资源库 -->
+    <section class="py-16 container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-primary text-center">合作与资源</h2>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="mb-10">
+                    <h3 class="text-2xl font-semibold mb-6">合作伙伴</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <!-- 合作伙伴链接（示例） -->
+                        <a href="#" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-link mr-2"></i>合作伙伴1
+                        </a>
+                        <a href="#" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-link mr-2"></i>合作伙伴2
+                        </a>
+                        <a href="#" class="px-6 py-3 bg-primary text-white rounded-lg hover-lift inline-block">
+                            <i class="fa fa-link mr-2"></i>合作伙伴3
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <a href="/filebrowser" class="px-8 py-4 bg-primary/90 text-white rounded-lg hover-lift inline-block text-xl font-semibold">
+                        <i class="fa fa-database mr-2"></i>缺德组织资源库
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-6 bg-primary text-white text-center">
+        <p>© 2026 缺德组织</p>
+    </footer>
+
+    <!-- 动效初始化 -->
+    <script>
+        // 滚动渐显效果
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section > div').forEach(el => {
+                el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
